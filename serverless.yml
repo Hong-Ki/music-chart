@@ -1,0 +1,25 @@
+service: sls-music-crawler
+app: sls-music-crawler
+org: hongki
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  timeout: 60
+  region: ap-northeast-1
+
+functions:
+  crawler:
+    handler: handler.crawler
+    events:
+      - http:
+          path: crawler
+          method: get
+      - schedule: rate(1 hour)
+  load:
+    handler: handler.load
+    events:
+      - http:
+          path: load
+          method: get
+          cors: true
